@@ -108,9 +108,14 @@ def all_weighted_shortest_paths(g: Graph, start: Any):
     def backtrace(node):
         path = []
         while poprzednik[node] != node:
+            paths = []
+            node1 = node
             node = poprzednik[node]
-            path.append(node)
-        return list(path)
+            paths.append(node)
+            paths.append(node1)
+            path.append(paths)
+        return list(reversed(path))
+
 
     paths = {node: backtrace(node) for node in poprzednik}
 
@@ -147,12 +152,12 @@ graph2.create_vertex(4)
 
 keys2 = [x for x in graph2.adjacencies.keys()]
 
-graph2.add(EdgeType(2), keys2[0], keys2[1], weight=1)
-graph2.add(EdgeType(2), keys2[3], keys2[0], weight=5)
-graph2.add(EdgeType(2), keys2[2], keys2[3], weight=2)
-graph2.add(EdgeType(2), keys2[3], keys2[1], weight=4)
+graph2.add(EdgeType(2), keys2[0], keys2[1], weight=1)   #0,1
+graph2.add(EdgeType(2), keys2[3], keys2[0], weight=5)   #4,0
+graph2.add(EdgeType(2), keys2[2], keys2[3], weight=2)   #3,4
+graph2.add(EdgeType(2), keys2[3], keys2[1], weight=5)   #4,1
 
-print(all_weighted_shortest_paths(graph2,1))
+print(all_weighted_shortest_paths(graph2,3))
 
 graph3 = Graph()
 graph3.create_vertex(0)
@@ -167,5 +172,6 @@ graph3.add(EdgeType(2), keys3[0], keys3[1], weight=1)
 graph3.add(EdgeType(2), keys3[2], keys3[3], weight=5)
 graph3.add(EdgeType(2), keys3[3], keys3[4], weight=2)
 graph3.add(EdgeType(2), keys3[4], keys3[1], weight=4)
+graph3.add(EdgeType(2), keys3[4], keys3[0], weight=1)
 
 print(all_weighted_shortest_paths(graph3,0))
